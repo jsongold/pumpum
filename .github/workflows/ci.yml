@@ -58,11 +58,11 @@ jobs:
       - name: Build ZIP
         run: |
           cd extensions/${{ matrix.extension }}
-          zip -r ../../ferrid-${{ matrix.extension }}.zip .
-          ls -la ../../ferrid-${{ matrix.extension }}.zip
+          zip -r ../../pumpum-${{ matrix.extension }}.zip .
+          ls -la ../../pumpum-${{ matrix.extension }}.zip
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ferrid-${{ matrix.extension }}
-          path: ferrid-${{ matrix.extension }}.zip
+          name: pumpum-${{ matrix.extension }}
+          path: pumpum-${{ matrix.extension }}.zip

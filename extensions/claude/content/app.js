@@ -1,4 +1,4 @@
-// ferrid for Claude — app.js v0.2
+// pumpum for Claude — app.js v0.2
 (function() {
   "use strict";
   if (document.getElementById("chatclip-panel")) return;
@@ -260,7 +260,7 @@
     toggle.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>';
     toggle.addEventListener("click", togglePanel); document.body.appendChild(toggle);
     var panel = document.createElement("div"); panel.id = "chatclip-panel";
-    panel.innerHTML = '<div class="cc-hdr"><span class="cc-hdr__name">ferrid</span><span class="cc-hdr__tag">' + SITE + '</span></div>' +
+    panel.innerHTML = '<div class="cc-hdr"><span class="cc-hdr__name">pumpum</span><span class="cc-hdr__tag">' + SITE + '</span></div>' +
       '<div class="cc-psel"><button class="cc-btn" id="cc-prev" title="Previous"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg></button>' +
       '<div class="cc-psel__wrap"><input class="cc-psel__input" id="cc-search" placeholder="Search Notion page\u2026" autocomplete="off"/><div class="cc-dropdown" id="cc-dropdown"></div></div>' +
       '<button class="cc-btn" id="cc-next" title="Next / Root"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg></button>' +

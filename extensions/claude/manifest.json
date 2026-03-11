@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "ferrid for Claude",
+  "name": "pumpum for Claude",
   "version": "0.1.0",
   "description": "Clip Claude messages to Notion with one click",
   "permissions": ["storage", "activeTab"],

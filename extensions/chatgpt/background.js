@@ -1,4 +1,4 @@
-// background.js — ferrid v0.2
+// background.js — pumpum v0.2
 // Security: uses storage.local (not sync), sanitizes errors
 var cache = new Map();
 var CACHE_TTL = 60000;
@@ -36,7 +36,7 @@ async function handleNotionRequest(req) {
   if (!req.endpoint || !ALLOWED_ENDPOINTS.test(req.endpoint)) return { error: "Endpoint not allowed" };
 
   var data = await chrome.storage.local.get(["notionToken"]);
-  if (!data.notionToken) return { error: "Notion token not set. Open ferrid settings." };
+  if (!data.notionToken) return { error: "Notion token not set. Open pumpum settings." };
 
   var token = data.notionToken.trim();
   if (!/^ntn_/.test(token)) return { error: "Invalid token format. Must start with ntn_" };

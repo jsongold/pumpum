@@ -39,38 +39,38 @@ jobs:
         run: |
           for ext in chatgpt claude; do
             cd extensions/$ext
-            zip -r ../../ferrid-${ext}-v${{ steps.version.outputs.VERSION }}.zip .
+            zip -r ../../pumpum-${ext}-v${{ steps.version.outputs.VERSION }}.zip .
             cd ../..
           done
-          ls -la ferrid-*.zip
+          ls -la pumpum-*.zip
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          name: ferrid v${{ steps.version.outputs.VERSION }}
+          name: pumpum v${{ steps.version.outputs.VERSION }}
           body: |
-            ## ferrid v${{ steps.version.outputs.VERSION }}
+            ## pumpum v${{ steps.version.outputs.VERSION }}
 
             ### Installation
             1. Download the ZIP for your platform below
             2. Unzip it
             3. Open `chrome://extensions` → Developer mode ON
             4. Click "Load unpacked" → select the unzipped folder
-            5. Click the ferrid icon in toolbar → enter Notion token → Save
+            5. Click the pumpum icon in toolbar → enter Notion token → Save
 
             ### Downloads
-            - **ferrid-chatgpt** — for ChatGPT (chatgpt.com)
-            - **ferrid-claude** — for Claude (claude.ai)
+            - **pumpum-chatgpt** — for ChatGPT (chatgpt.com)
+            - **pumpum-claude** — for Claude (claude.ai)
           files: |
-            ferrid-chatgpt-v${{ steps.version.outputs.VERSION }}.zip
-            ferrid-claude-v${{ steps.version.outputs.VERSION }}.zip
+            pumpum-chatgpt-v${{ steps.version.outputs.VERSION }}.zip
+            pumpum-claude-v${{ steps.version.outputs.VERSION }}.zip
           draft: false
           prerelease: false
 
       - name: Upload ChatGPT extension to Chrome Web Store
         uses: mnao305/chrome-extension-upload@v5.0.0
         with:
-          file-path: ferrid-chatgpt-v${{ steps.version.outputs.VERSION }}.zip
+          file-path: pumpum-chatgpt-v${{ steps.version.outputs.VERSION }}.zip
           extension-id: ${{ vars.CWS_EXTENSION_ID_CHATGPT }}
           client-id: ${{ secrets.CWS_CLIENT_ID }}
           client-secret: ${{ secrets.CWS_CLIENT_SECRET }}
@@ -80,7 +80,7 @@ jobs:
       - name: Upload Claude extension to Chrome Web Store
         uses: mnao305/chrome-extension-upload@v5.0.0
         with:
-          file-path: ferrid-claude-v${{ steps.version.outputs.VERSION }}.zip
+          file-path: pumpum-claude-v${{ steps.version.outputs.VERSION }}.zip
           extension-id: ${{ vars.CWS_EXTENSION_ID_CLAUDE }}
           client-id: ${{ secrets.CWS_CLIENT_ID }}
           client-secret: ${{ secrets.CWS_CLIENT_SECRET }}
