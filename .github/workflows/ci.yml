@@ -40,7 +40,7 @@ jobs:
       - name: Check no inline scripts in popup
         run: |
           cd extensions/${{ matrix.extension }}
-          if grep -q '<script>' popup/popup.html && ! grep -q '<script src=' popup/popup.html; then
+          if grep -Pq '<script(?!\s+src=)' popup/popup.html; then
             echo "✗ Inline script detected in popup.html (MV3 CSP violation)"
             exit 1
           fi

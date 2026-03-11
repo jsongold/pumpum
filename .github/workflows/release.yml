@@ -20,15 +20,18 @@ jobs:
         run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
 
       - name: Update manifest versions
+        env:
+          VERSION: ${{ steps.version.outputs.VERSION }}
         run: |
           for ext in chatgpt claude; do
             python3 -c "
-          import json
+          import json, os
+          v = os.environ['VERSION']
           with open('extensions/$ext/manifest.json', 'r+') as f:
             m = json.load(f)
-            m['version'] = '${{ steps.version.outputs.VERSION }}'
+            m['version'] = v
             f.seek(0); json.dump(m, f, indent=2); f.truncate()
-          print(f'Updated extensions/$ext/manifest.json to ${{ steps.version.outputs.VERSION }}')
+          print(f'Updated extensions/$ext/manifest.json to {v}')
             "
           done
 

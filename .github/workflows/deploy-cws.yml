@@ -23,12 +23,14 @@ jobs:
         run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
 
       - name: Update manifest version
+        env:
+          VERSION: ${{ steps.version.outputs.VERSION }}
         run: |
           python3 -c "
-          import json
+          import json, os
           with open('extensions/${{ matrix.extension }}/manifest.json', 'r+') as f:
             m = json.load(f)
-            m['version'] = '${{ steps.version.outputs.VERSION }}'
+            m['version'] = os.environ['VERSION']
             f.seek(0); json.dump(m, f, indent=2); f.truncate()
           "
 
