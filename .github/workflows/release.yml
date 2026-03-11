@@ -66,3 +66,23 @@ jobs:
             ferrid-claude-v${{ steps.version.outputs.VERSION }}.zip
           draft: false
           prerelease: false
+
+      - name: Upload ChatGPT extension to Chrome Web Store
+        uses: mnao305/chrome-extension-upload@v5.0.0
+        with:
+          file-path: ferrid-chatgpt-v${{ steps.version.outputs.VERSION }}.zip
+          extension-id: ${{ vars.CWS_EXTENSION_ID_CHATGPT }}
+          client-id: ${{ secrets.CWS_CLIENT_ID }}
+          client-secret: ${{ secrets.CWS_CLIENT_SECRET }}
+          refresh-token: ${{ secrets.CWS_REFRESH_TOKEN }}
+          publish: true
+
+      - name: Upload Claude extension to Chrome Web Store
+        uses: mnao305/chrome-extension-upload@v5.0.0
+        with:
+          file-path: ferrid-claude-v${{ steps.version.outputs.VERSION }}.zip
+          extension-id: ${{ vars.CWS_EXTENSION_ID_CLAUDE }}
+          client-id: ${{ secrets.CWS_CLIENT_ID }}
+          client-secret: ${{ secrets.CWS_CLIENT_SECRET }}
+          refresh-token: ${{ secrets.CWS_REFRESH_TOKEN }}
+          publish: true
