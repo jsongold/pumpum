@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{width:300px;background:#141414;color:rgba(255,255,255,.88);font-family:-apple-system,"SF Pro Text","Helvetica Neue",sans-serif;font-size:12px;padding:16px}
+.hdr{display:flex;align-items:center;gap:8px;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid rgba(255,255,255,.08)}
+.hdr__t{font-size:15px;font-weight:600;color:#5b9bf7;letter-spacing:-.3px}
+.hdr__v{font-size:9px;color:rgba(255,255,255,.4)}
+.section{margin-bottom:14px}
+.section__l{font-size:9px;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:6px}
+.field{margin-bottom:10px}
+.field__l{font-size:11px;color:rgba(255,255,255,.5);margin-bottom:3px}
+.field__i{width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:6px;color:rgba(255,255,255,.88);padding:7px 10px;font-size:11px;font-family:inherit;outline:none;transition:border-color .15s}
+.field__i:focus{border-color:#5b9bf7}
+.field__i::placeholder{color:rgba(255,255,255,.2)}
+.field__h{font-size:10px;color:rgba(255,255,255,.25);margin-top:4px;line-height:1.4}
+.field__h a{color:#5b9bf7;text-decoration:none}
+.field__h a:hover{text-decoration:underline}
+select.field__i{appearance:none;cursor:pointer}
+.divider{border-top:1px solid rgba(255,255,255,.06);margin:14px 0}
+.btn{width:100%;padding:8px;background:#5b9bf7;color:#000;border:none;border-radius:6px;font-size:12px;font-weight:600;font-family:inherit;cursor:pointer;transition:background .12s}
+.btn:hover{background:#7cb0ff}
+.btn:active{transform:scale(.98)}
+.status{margin-top:8px;font-size:10px;text-align:center;min-height:16px}
+.status.ok{color:#4ade80}
+.status.err{color:#f87171}
+.preview{margin-top:6px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:6px;padding:8px 10px;font-size:10px;color:rgba(255,255,255,.35);line-height:1.5;font-family:"SF Mono","Fira Code",monospace;white-space:pre}
+</style>
+</head>
+<body>
+<div class="hdr"><span class="hdr__t">ferrid</span><span class="hdr__v">v0.1.1</span></div>
+<div class="section">
+<div class="section__l">Notion API</div>
+<div class="field">
+<label class="field__l">Integration Token</label>
+<input class="field__i" id="token" type="password" placeholder="ntn_xxxxxxxxxxxx" />
+<div class="field__h">Create at <a href="https://www.notion.so/profile/integrations" target="_blank">notion.so/profile/integrations</a></div>
+</div>
+</div>
+<div class="divider"></div>
+<div class="section">
+<div class="section__l">Transfer Structure</div>
+<div class="field">
+<label class="field__l">Mode</label>
+<select class="field__i" id="transferMode">
+<option value="default">Default (append to page)</option>
+<option value="childpage">Child Page (create sub-page)</option>
+</select>
+<div class="preview" id="modePreview"></div>
+</div>
+</div>
+<div class="divider"></div>
+<div class="section">
+<div class="section__l">Format</div>
+<div class="field">
+<label class="field__l">Transfer format</label>
+<select class="field__i" id="format"><option value="markdown" selected>Markdown</option><option value="plaintext">Plain Text</option></select>
+</div>
+</div>
+<button class="btn" id="save">Save Settings</button>
+<div class="status" id="status"></div>
+<script src="popup.js"></script>
+</body>
+</html>

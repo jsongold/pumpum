@@ -1,0 +1,68 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        extension: [chatgpt, claude]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate manifest
+        run: |
+          cd extensions/${{ matrix.extension }}
+          python3 -c "
+          import json, sys
+          with open('manifest.json') as f:
+            m = json.load(f)
+          assert m.get('manifest_version') == 3, 'Must be MV3'
+          assert m.get('name'), 'Missing name'
+          assert m.get('version'), 'Missing version'
+          assert m.get('background', {}).get('service_worker'), 'Missing service worker'
+          print(f'✓ {m[\"name\"]} v{m[\"version\"]}')
+          "
+
+      - name: Check required files exist
+        run: |
+          cd extensions/${{ matrix.extension }}
+          for f in manifest.json background.js content/app.js content/styles.css popup/popup.html popup/popup.js; do
+            [ -f "$f" ] && echo "✓ $f" || (echo "✗ Missing $f" && exit 1)
+          done
+
+      - name: Check no inline scripts in popup
+        run: |
+          cd extensions/${{ matrix.extension }}
+          if grep -q '<script>' popup/popup.html && ! grep -q '<script src=' popup/popup.html; then
+            echo "✗ Inline script detected in popup.html (MV3 CSP violation)"
+            exit 1
+          fi
+          echo "✓ No inline scripts"
+
+      - name: Check no sensitive data committed
+        run: |
+          cd extensions/${{ matrix.extension }}
+          if grep -rq 'ntn_[A-Za-z0-9]\{10,\}' .; then
+            echo "✗ Notion token found in source!"
+            exit 1
+          fi
+          echo "✓ No tokens in source"
+
+      - name: Build ZIP
+        run: |
+          cd extensions/${{ matrix.extension }}
+          zip -r ../../ferrid-${{ matrix.extension }}.zip .
+          ls -la ../../ferrid-${{ matrix.extension }}.zip
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ferrid-${{ matrix.extension }}
+          path: ferrid-${{ matrix.extension }}.zip

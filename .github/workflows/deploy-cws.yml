@@ -1,0 +1,48 @@
+name: Chrome Web Store Deploy
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - extension: chatgpt
+            extension_id: ${{ vars.CWS_EXTENSION_ID_CHATGPT }}
+          - extension: claude
+            extension_id: ${{ vars.CWS_EXTENSION_ID_CLAUDE }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Get version from release tag
+        id: version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+
+      - name: Update manifest version
+        run: |
+          python3 -c "
+          import json
+          with open('extensions/${{ matrix.extension }}/manifest.json', 'r+') as f:
+            m = json.load(f)
+            m['version'] = '${{ steps.version.outputs.VERSION }}'
+            f.seek(0); json.dump(m, f, indent=2); f.truncate()
+          "
+
+      - name: Build ZIP
+        run: |
+          cd extensions/${{ matrix.extension }}
+          zip -r ../../ferrid-${{ matrix.extension }}.zip .
+
+      - name: Upload to Chrome Web Store
+        uses: mnao305/chrome-extension-upload@v5.0.0
+        with:
+          file-path: ferrid-${{ matrix.extension }}.zip
+          extension-id: ${{ matrix.extension_id }}
+          client-id: ${{ secrets.CWS_CLIENT_ID }}
+          client-secret: ${{ secrets.CWS_CLIENT_SECRET }}
+          refresh-token: ${{ secrets.CWS_REFRESH_TOKEN }}
+          publish: true
